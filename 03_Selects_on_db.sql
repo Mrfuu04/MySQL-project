@@ -1,7 +1,7 @@
 use kinopoisk;
 
-/*				Выборки с пользователями		*/
--- Выборка всех избранных персон пользователя
+/*				Р’С‹Р±РѕСЂРєРё СЃ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏРјРё		*/
+-- Р’С‹Р±РѕСЂРєР° РІСЃРµС… РёР·Р±СЂР°РЅРЅС‹С… РїРµСЂСЃРѕРЅ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 select p.user_id, concat(p.firstname,' ', p.lastname) as `user`, per.original_name 
 from profiles as p 
 	join favourite_persons as fp on p.user_id = fp.user_id 
@@ -9,25 +9,25 @@ from profiles as p
 		where p.user_id = 1;
 		
 
--- Выборка кол-ва входящих и исходящих сообщений (раздельно)
+-- Р’С‹Р±РѕСЂРєР° РєРѕР»-РІР° РІС…РѕРґСЏС‰РёС… Рё РёСЃС…РѕРґСЏС‰РёС… СЃРѕРѕР±С‰РµРЅРёР№ (СЂР°Р·РґРµР»СЊРЅРѕ)
 select pro.user_id, concat(pro.firstname, ' ', pro.lastname) as `user`,
 (select count(*) from messages where pro.user_id = from_user_id) as total_from,
 (select count(*) from messages where pro.user_id = to_user_id) as total_to
 from profiles pro
 	left join messages m on pro.user_id = m.from_user_id or pro.user_id = m.to_user_id
-		-- where pro.user_id = 1     -- Возможно подключить индивидуальную выборку
+		-- where pro.user_id = 1     -- Р’РѕР·РјРѕР¶РЅРѕ РїРѕРґРєР»СЋС‡РёС‚СЊ РёРЅРґРёРІРёРґСѓР°Р»СЊРЅСѓСЋ РІС‹Р±РѕСЂРєСѓ
 			group by pro.user_id order by pro.user_id;
 
 
 	
--- Выборка всех избранных фильмов пользователя
+-- Р’С‹Р±РѕСЂРєР° РІСЃРµС… РёР·Р±СЂР°РЅРЅС‹С… С„РёР»СЊРјРѕРІ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 select concat(pro.firstname, ' ', pro.lastname) as `user`, f.name  from profiles pro 
 	join favourite_films ff on ff.user_id = pro.user_id
 	join films f on ff.film_id = f.id
 		where pro.id = 1;
 	
 
--- Выборка всех обзоров пользователя и их оценки 
+-- Р’С‹Р±РѕСЂРєР° РІСЃРµС… РѕР±Р·РѕСЂРѕРІ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ Рё РёС… РѕС†РµРЅРєРё 
 
 select concat(pro.firstname, ' ', pro.lastname) as `user`, films.name, rev.body, rev.is_positive, 
 (select count(is_good) from review_rating where is_good = 1 and review_id = rev.id) as likes,
@@ -38,7 +38,7 @@ from reviews rev
 		where pro.user_id = 1;
 
 	
--- Выборка всех рейтингов пользователя
+-- Р’С‹Р±РѕСЂРєР° РІСЃРµС… СЂРµР№С‚РёРЅРіРѕРІ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 select concat(pro.firstname, ' ', pro.lastname) as `user`, fi.name, r.rating from rating r
 	join profiles pro on pro.user_id = r.user_id
 	join films fi on fi.id = r.film_id
@@ -46,27 +46,27 @@ select concat(pro.firstname, ' ', pro.lastname) as `user`, fi.name, r.rating fro
 	
 	
 
-/*				Выборки с персонами   			*/
--- Выборка всех фильмов персоны (или нескольких) и его роль
+/*				Р’С‹Р±РѕСЂРєРё СЃ РїРµСЂСЃРѕРЅР°РјРё   			*/
+-- Р’С‹Р±РѕСЂРєР° РІСЃРµС… С„РёР»СЊРјРѕРІ РїРµСЂСЃРѕРЅС‹ (РёР»Рё РЅРµСЃРєРѕР»СЊРєРёС…) Рё РµРіРѕ СЂРѕР»СЊ
 select concat(p.name, ' ', p.lastname) as person, f.name as film,
 per_type.person_type as `type` from persons p
 	join person_film pf on p.id = pf.person_id 
 	join films f on f.id = pf.film_id
 	join person_info per_inf on per_inf.person_id = p.id
 	join person_type per_type on per_inf.person_type_id = per_type.id
-		where p.name in ('Джаред', 'Бен') order by person;
+		where p.name in ('Р”Р¶Р°СЂРµРґ', 'Р‘РµРЅ') order by person;
 
 
--- Выборка кол-ва фильмов персоны
+-- Р’С‹Р±РѕСЂРєР° РєРѕР»-РІР° С„РёР»СЊРјРѕРІ РїРµСЂСЃРѕРЅС‹
 select concat(p.name, ' ', p.lastname) as person, count(*) total
 from persons p
 	join person_film pf on p.id = pf.person_id 
 	join films f on f.id = pf.film_id	 
-		-- where p.id = 1  -- Возможно подключить индивидуальную выборку
+		-- where p.id = 1  -- Р’РѕР·РјРѕР¶РЅРѕ РїРѕРґРєР»СЋС‡РёС‚СЊ РёРЅРґРёРІРёРґСѓР°Р»СЊРЅСѓСЋ РІС‹Р±РѕСЂРєСѓ
 		group by person order by person;
 
 	
--- Выборка ролей персоны
+-- Р’С‹Р±РѕСЂРєР° СЂРѕР»РµР№ РїРµСЂСЃРѕРЅС‹
 select concat(p.name, ' ', p.lastname) as person, pt.person_type as `role` from persons p
 	join person_info per_inf on per_inf.person_id = p.id
 	join person_type pt on per_inf.person_type_id = pt.id
@@ -74,28 +74,28 @@ select concat(p.name, ' ', p.lastname) as person, pt.person_type as `role` from 
 			order by person, `role`;
 
 
-/*				Выборки с фильмами   			*/
--- Выборка фильмов по жанрам
+/*				Р’С‹Р±РѕСЂРєРё СЃ С„РёР»СЊРјР°РјРё   			*/
+-- Р’С‹Р±РѕСЂРєР° С„РёР»СЊРјРѕРІ РїРѕ Р¶Р°РЅСЂР°Рј
 select f.id, f.name, g.genre from films f
 	join film_genre fg on f.id = fg.film_id 
 	join genres g on g.id = fg.genre_id
-		where genre = 'Боевик' order by f.id;
+		where genre = 'Р‘РѕРµРІРёРє' order by f.id;
 
 
--- Средний рейтинг фильма
+-- РЎСЂРµРґРЅРёР№ СЂРµР№С‚РёРЅРі С„РёР»СЊРјР°
 select fil.name, avg(r.rating) from films fil
 	left join rating r on r.film_id = fil.id
 		where fil.id = 1 group by fil.id;
 
 	
--- Сколько пользователей добавили в избранное
+-- РЎРєРѕР»СЊРєРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ РґРѕР±Р°РІРёР»Рё РІ РёР·Р±СЂР°РЅРЅРѕРµ
 select fil.name, count(ff.id) from films fil
 	left join favourite_films ff on ff.film_id = fil.id
 		where fil.id = 1
 			group by fil.id;
 	
 		
--- Сколько раз поставили фильму оценку
+-- РЎРєРѕР»СЊРєРѕ СЂР°Р· РїРѕСЃС‚Р°РІРёР»Рё С„РёР»СЊРјСѓ РѕС†РµРЅРєСѓ
 select fil.name, count(r.id) from films fil
 	left join rating r on r.film_id = fil.id
 		where fil.id = 4

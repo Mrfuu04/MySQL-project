@@ -1,7 +1,7 @@
 use kinopoisk;
 /*				TRIGGERS				*/
 
--- Запрет на добавление пустых полей в поле firstname в таблице profiles
+-- Р—Р°РїСЂРµС‚ РЅР° РґРѕР±Р°РІР»РµРЅРёРµ РїСѓСЃС‚С‹С… РїРѕР»РµР№ РІ РїРѕР»Рµ firstname РІ С‚Р°Р±Р»РёС†Рµ profiles
 drop trigger if exists tr_profiles_frstname;
 delimiter //
 create trigger tr_profiles_frstname before insert 
@@ -15,7 +15,7 @@ create trigger tr_profiles_frstname before insert
 delimiter ;
 
 
--- Запрет на добавление пустых полей в поле name в таблице films
+-- Р—Р°РїСЂРµС‚ РЅР° РґРѕР±Р°РІР»РµРЅРёРµ РїСѓСЃС‚С‹С… РїРѕР»РµР№ РІ РїРѕР»Рµ name РІ С‚Р°Р±Р»РёС†Рµ films
 drop trigger if exists tr_films_name;
 delimiter //
 create trigger tr_films_name before insert 
@@ -30,7 +30,7 @@ delimiter ;
 
 
 /*				PROCEDURES				*/
--- добавление пользователя
+-- РґРѕР±Р°РІР»РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 drop procedure if exists sp_add_user;
 delimiter //
 create procedure sp_add_user(email VARCHAR(50), password_hash VARCHAR(100),
@@ -65,7 +65,7 @@ delimiter ;
 
 
 
--- Добавление фильма
+-- Р”РѕР±Р°РІР»РµРЅРёРµ С„РёР»СЊРјР°
 
 drop procedure if exists sp_add_film;
 delimiter //
@@ -89,9 +89,9 @@ begin
 		else
 				set _film_type_id = 0;
 		end if;
-		-- проверка на пустое значение name
+		-- РїСЂРѕРІРµСЂРєР° РЅР° РїСѓСЃС‚РѕРµ Р·РЅР°С‡РµРЅРёРµ name
 		if length(ltrim(rtrim(name))) = 0 then set _rollback = 1;
-										set status = 'Пустое имя';
+										set status = 'РџСѓСЃС‚РѕРµ РёРјСЏ';
 		end if;
 	
 		start transaction;

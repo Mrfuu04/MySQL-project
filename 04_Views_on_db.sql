@@ -1,13 +1,13 @@
 use kinopoisk;
 
 /*				VIEWS				*/
--- представление пользователей без конф. информации
+-- РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ Р±РµР· РєРѕРЅС„. РёРЅС„РѕСЂРјР°С†РёРё
 create or replace view get_user_inf as 
 	select us.id, concat(pro.firstname, ' ', pro.lastname) as `name`, 
 	timestampdiff(year, pro.birthday, curdate()) as age,
 		case
-			when pro.gender = 'm' then 'Муж'
-			when pro.gender = 'f' then 'Жен'
+			when pro.gender = 'm' then 'РњСѓР¶'
+			when pro.gender = 'f' then 'Р–РµРЅ'
 			end as gender,
 	us.email 
 	from users us
@@ -15,7 +15,7 @@ create or replace view get_user_inf as
 	
 
 
--- отображает кол-во фильмов для страны
+-- РѕС‚РѕР±СЂР°Р¶Р°РµС‚ РєРѕР»-РІРѕ С„РёР»СЊРјРѕРІ РґР»СЏ СЃС‚СЂР°РЅС‹
 create or replace view get_countries_total as 
 	select c.name, tc.films from countries c
 		left join (select count(film_id) as films,
@@ -27,7 +27,7 @@ create or replace view get_countries_total as
 				order by tc.films desc;
 
 
--- отображает все ревью на фильм и кол-во оценок
+-- РѕС‚РѕР±СЂР°Р¶Р°РµС‚ РІСЃРµ СЂРµРІСЊСЋ РЅР° С„РёР»СЊРј Рё РєРѕР»-РІРѕ РѕС†РµРЅРѕРє
 create or replace view get_film_review as 		
 	select pro.user_id, concat(pro.firstname, ' ', pro.lastname) as `username`, fil.name as film, rev.name as review_name, 
 	date(rev.created_at) as created, rev.body, rev.is_positive, tl.likes, tl2.dislikes
