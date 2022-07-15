@@ -9,7 +9,7 @@ drop table if exists genres;
 create table genres(
 	id serial primary key,
 	genre VARCHAR(30) unique not null,
-	index genres_name_idx(genre) -- индекс на жанр
+	index genres_name_idx(genre) -- пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
 );
 
 drop table if exists trailers;
@@ -28,25 +28,25 @@ drop table if exists film_type;
 create table film_type (
 	id serial primary key,
 	film_type enum('serial', 'movie')
-); -- Здесь будем определять фильм или сериал
+); -- пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
 drop table if exists person_type;
 create table person_type (
 	id serial primary key,
 	person_type enum('actor', 'actress', 'producer', 'director', 'writer')
-); -- Тип персон
+); -- пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
 drop table if exists images;
 create table images(
 	id serial primary key,
 	image VARCHAR(255)
-); -- Здесь хранятся все изображения
+); -- пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 drop table if exists studios;
 create table studios (
 	id serial primary key,
 	name VARCHAR(100) not null
-); -- Киностудии
+); -- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 -- USERS
 drop table if exists users;
@@ -55,7 +55,7 @@ create table users(
 	password_hash VARCHAR(100),
 	email VARCHAR(50) not null unique
 );
-
+-- t
 
 drop table if exists profile;
 create table profiles(
@@ -88,7 +88,7 @@ create table messages(
 	
 	foreign key(from_user_id) references users(id),
 	foreign key(to_user_id) references users(id),
-	check(from_user_id <> to_user_id) -- Проверка, чтобы пользователь не мог написать сам себе
+	check(from_user_id <> to_user_id) -- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 ); -- Messages
 
 
@@ -182,7 +182,7 @@ drop table if exists person_info;
 create table person_info (
 	id serial primary key,
 	person_id BIGINT unsigned not null,
-	person_type_id BIGINT unsigned not null, -- Определяем тип персоны
+	person_type_id BIGINT unsigned not null, -- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	facts VARCHAR(500) default null,
 	
 	foreign key(person_id) references persons(id),
@@ -291,10 +291,10 @@ create table review_rating (
 	foreign key(review_id) references reviews(id)
 );
 	
--- Немного поправил rating для подсчета average
+-- пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ rating пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ average
 alter table rating change rating rating VARCHAR(50);
 alter table rating change rating rating BIGINT;	
 alter table rating add constraint check_rating check (rating.rating in (0,1,2,3,4,5,6,7,8,9,10));
 
--- Поправил 
+-- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 
 alter table film_type modify film_type enum('serial','movie') not null;
